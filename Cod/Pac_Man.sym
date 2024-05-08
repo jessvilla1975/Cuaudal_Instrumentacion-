@@ -1,0 +1,174 @@
+000     @SCRATCH
+001     @SCRATCH
+001     _RETURN_
+002     @SCRATCH
+003     @SCRATCH
+004     @INTERRUPT_AREA
+005     @INTERRUPT_AREA
+006     @INTERRUPT_AREA
+007     @INTERRUPT_AREA
+008     @INTERRUPT_AREA
+009     @INTERRUPT_AREA
+00A     @INTERRUPT_AREA
+00B     @INTERRUPT_AREA
+00C     @INTERRUPT_AREA
+00D     @INTERRUPT_AREA
+00E     @INTERRUPT_AREA
+00F     @INTERRUPT_AREA
+010     @INTERRUPT_AREA
+011     @INTERRUPT_AREA
+012     @INTERRUPT_AREA
+013     @INTERRUPT_AREA
+014     @INTERRUPT_AREA
+015     @INTERRUPT_AREA
+016     @INTERRUPT_AREA
+017     @INTERRUPT_AREA
+018     @INTERRUPT_AREA
+019-01A strtok.save
+01B-01E _Randseed
+01F-020 flow_count
+021-024 flow_rate
+025-026 @sprintf_string
+027     @PSTRINGCN_924.P1
+027     lcd_init.i
+027-02A @PRINTF_L32D_924FPFPF.P1
+027-02A @DIVFF.P2
+027-028 @ITOF.P3
+027     main.@SCRATCH1
+027     @PSTRINGC_924.@SCRATCH1
+028     lcd_init.@SCRATCH1
+028     main.@SCRATCH2
+028     @PSTRINGC_924.@SCRATCH2
+028     @PSTRINGCN_924.@SCRATCH1
+029     main.@SCRATCH3
+029     @PSTRINGCN_924.@SCRATCH2
+02A     main.@SCRATCH4
+02B-02E @DIVFF.P1
+02B     @PRINTF_L32D_924FPFPF.P2
+02C     @PRINTF_L32D_924FPFPF.@SCRATCH1
+02D     @PRINTF_L32D_924FPFPF.@SCRATCH2
+02E     @PRINTF_L32D_924FPFPF.@SCRATCH3
+02F     @DIVFF.@SCRATCH1
+02F     @PRINTF_L32D_924FPFPF.@SCRATCH4
+030     @DIVFF.@SCRATCH2
+030     @PRINTF_L32D_924FPFPF.@SCRATCH5
+031     @DIVFF.@SCRATCH3
+031     @PRINTF_L32D_924FPFPF.@SCRATCH6
+032     @DIVFF.@SCRATCH4
+032     @PRINTF_L32D_924FPFPF.@SCRATCH7
+033     @DIVFF.@SCRATCH5
+033     @PRINTF_L32D_924FPFPF.@SCRATCH8
+034-037 @DIV3232.P1
+034-037 @FTOSD.P2
+034-037 @MULFF.P3
+034     lcd_putc.c
+034     @DIVFF.@SCRATCH6
+035     @delay_ms1.P1
+035     lcd_gotoxy.x
+036     lcd_gotoxy.y
+037     lcd_gotoxy.address
+038-03B @MULFF.P1
+038-03B @DIV3232.P2
+038     lcd_gotoxy.@SCRATCH1
+038     @FTOSD.@SCRATCH1
+039     lcd_send_byte.address
+03A     lcd_send_byte.n
+03B     lcd_read_byte.low
+03B     lcd_send_byte.@SCRATCH1
+03C     lcd_send_nibble.n
+03C     lcd_read_byte.high
+03C     @MULFF.@SCRATCH1
+03C     @DIV3232.@SCRATCH1
+03D     @MULFF.@SCRATCH2
+03D     lcd_read_byte.@SCRATCH1
+03D     @DIV3232.@SCRATCH2
+03E     @MULFF.@SCRATCH3
+03E     @DIV3232.@SCRATCH3
+03F     @DIV3232.@SCRATCH4
+040     @DIV3232.@SCRATCH5
+F83     lcd
+F83     PSP_DATA
+FB4.6   C1OUT
+FB4.7   C2OUT
+FBB     CCP_2
+FBB     CCP_2_LOW
+FBC     CCP_2_HIGH
+FBE     CCP_1_LOW
+FBE     CCP_1
+FBF     CCP_1_HIGH
+FE1-FE2 @READ_PACKED_MEMORY.P1
+FE1-FE2 @WRITE_PACKED_MEMORY.P2
+FE9-FEA @WRITE_PACKED_MEMORY.P1
+FE9-FEA @READ_PACKED_MEMORY.P2
+FE9-FEA @READ_PROGRAM_MEMORY.P3
+FE9-FEA @WRITE_PROGRAM_MEMORY.P4
+FF6-FF8 @READ_PROGRAM_MEMORY.P1
+FF6-FF8 @WRITE_PROGRAM_MEMORY.P2
+
+ROM Allocation:
+0000AE  LCD_INIT_STRING.call
+0000BE  LCD_INIT_STRING.data
+0000C2  ext_isr
+0000D0  @const936.call
+0000E4  @const942.call
+0000F8  @delay_ms1
+000120  lcd_send_nibble
+000138  lcd_read_byte
+000170  lcd_send_byte
+0001A6  lcd_init
+0001F4  lcd_gotoxy
+000216  lcd_putc
+000258  @PSTRINGC_924
+00027A  @ITOF
+0002B2  @MULFF
+0003A4  @DIVFF
+000500  @PSTRINGCN_924
+00051E  @FTOSD
+00055E  @DIV3232
+0005EC  @PRINTF_L32D_924FPFPF
+000766  main
+000766  @cinit1
+000788  @cinit2
+0136  StrtoulGO
+0136  StrtolGO
+
+Project Directory:
+    C:\Users\Jess\Desktop\Proyecto_Jenny\Cod\
+
+Project Files:
+    Pac_Man.c                                               [08-may.-24 00:15  CRC=45D040D2]
+    D:\Program Files (x86)\PICC\Devices\18F4550.H           [12-nov.-13 14:35  CRC=5337E248]
+    D:\Program Files (x86)\PICC\Drivers\stdlib.h            [08-jun.-11 14:39  CRC=0B6669CF]
+    D:\Program Files (x86)\PICC\Drivers\stddef.h            [16-jul.-10 09:27  CRC=897CEC6C]
+    D:\Program Files (x86)\PICC\Drivers\string.h            [14-jul.-11 10:13  CRC=23EDEC8F]
+    D:\Program Files (x86)\PICC\Drivers\ctype.h             [03-ene.-08 13:55  CRC=2D1F019F]
+    Mi_LCD.c                                                [25-abr.-22 20:48  CRC=D2A036CA]
+
+Source signature=2438D517
+Program memory checksum=0000
+Program memory CRC=0000
+Hex file CRC=CEE3
+
+Units:
+    Pac_Man (main)
+
+Compiler Settings:
+    Processor:      PIC18F4550
+    Pointer Size:   16
+    ADC Range:      0-255
+    Opt Level:      9
+    Short,Int,Long: UNSIGNED: 1,8,16
+    Float,Double:   32,32
+    Compile Mode:       CCS5
+
+Output Files:
+    XREF file:   Pac_Man.xsym
+    Errors:      Pac_Man.err
+    Ext Symbols: Pac_Man.esym
+    INHX32:      Pac_Man.hex
+    Symbols:     Pac_Man.sym
+    List:        Pac_Man.lst
+    Debug/COFF:  Pac_Man.cof
+    Project:     Pac_Man.ccspjt
+    Call Tree:   Pac_Man.tre
+    Statistics:  Pac_Man.STA

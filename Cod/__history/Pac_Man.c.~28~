@@ -1,0 +1,49 @@
+
+#include <18F4550.H>
+#include <stdlib.h>
+#use delay(clock=4Mhz)
+#fuses XT, NOPROTECT, NOPUT, NOWDT, NOBROWNOUT, NOLVP, NOCPD
+#include "Mi_LCD.c"
+int flowPin = PIN_B0; // Este es el pin de entrada del sensor de flujo
+double flowRate; // Esta es la variable que calcularemos
+volatile int count; // Este entero debe ser declarado como volátil para garantizar que se actualice correctamente durante el proceso de interrupción
+#int_EXT // Declara el manejador de interrupción externa
+void ext_isr() {
+   count++; // Incrementa el contador cada vez que se produce una interrupción externa (en este caso, en el pin B0)
+}
+void main()
+{
+
+   lcd_init();
+
+   set_tris_b(input(PIN_B0));
+   set_tris_e(0x01);
+   enable_interrupts(INT_EXT);
+   ext_int_edge(H_TO_L);
+
+  int8 count = 0;
+  enable_interrupts(GLOBAL);
+  lcd_gotoxy(4,1);
+  printf(lcd_putc,"Proyecto Caudal"); 
+  delay_ms(1000);
+  lcd_putc('\f');
+
+  while(1)
+  {
+    count = 0;
+    //delay_ms(1000); // Espera 1 segundo
+    
+     // Realiza los cálculos
+    flowRate = (count * 2.25); // Toma los pulsos contados en el último segundo y multiplica por 2.25 mL
+    flowRate = flowRate * 60; // Convierte segundos a minutos, dando mL / minuto
+    flowRate = flowRate / 1000; // Convierte mL a litros, dando litros / minuto
+    lcd_putc('\f');
+    lcd_gotoxy(1,1);
+    printf(lcd_putc, "Caudal: %.2f L/min", flowRate);
+    delay_ms(150);
+    
+
+
+      
+   }
+}

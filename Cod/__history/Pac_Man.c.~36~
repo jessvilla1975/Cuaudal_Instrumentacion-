@@ -1,0 +1,43 @@
+
+#include <18F4550.H>
+#include <stdlib.h>
+#use delay(clock=4Mhz)
+#fuses XT, NOPROTECT, NOPUT, NOWDT, NOBROWNOUT, NOLVP, NOCPD
+#include "Mi_LCD.c"
+#define FLOW_PIN PIN_A0 // Definimos el pin de entrada para el sensor de flujo
+#define V_REF 5.0       // Voltaje de referencia para el ADC (en volts)
+#define MAX_COUNT 1023  // Valor máximo de conteo del ADC (10 bits)
+
+float flowRate;
+
+void main() {
+   lcd_init();
+
+   setup_adc_ports(AN0);     // Configuramos el pin AN0 como entrada analógica
+   setup_adc(ADC_CLOCK_DIV_2); // Configuramos el reloj del ADC
+   enable_interrupts(GLOBAL); // Habilitamos todas las interrupciones globales
+
+   while(TRUE) {
+      int16 adc_value = 0;
+      float voltage = 0.0;
+
+      // Leemos el valor del ADC
+      set_adc_channel(0); // Seleccionamos el canal AN0
+      delay_us(20); // Esperamos un corto tiempo para que la entrada se estabilice
+      adc_value = read_adc(); // Leemos el valor del ADC
+
+      // Convertimos el valor del ADC a voltaje
+      voltage = ((float)adc_value / MAX_COUNT) * V_REF;
+
+      // Calculamos el flujo en base al voltaje leído
+      // Aquí debes ajustar la ecuación de acuerdo a la calibración de tu sensor
+      // La siguiente ecuación es solo un ejemplo y puede necesitar ajustes
+      flowRate = (voltage - 0.5) * 100.0;
+
+      // Mostramos el flujo en el LCD
+      lcd_putc("\fFlujo (L/min):");
+      printf(lcd_putc, "%.2f", flowRate);
+
+      delay_ms(100); // Esperamos un corto tiempo antes de la siguiente medición
+   }
+}

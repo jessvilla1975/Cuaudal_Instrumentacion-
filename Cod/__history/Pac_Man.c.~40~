@@ -1,0 +1,38 @@
+
+#include <18F4550.H>
+#include <stdlib.h>
+#use delay(clock=4Mhz)
+#fuses XT, NOPROTECT, NOPUT, NOWDT, NOBROWNOUT, NOLVP, NOCPD
+#include "Mi_LCD.c"
+int16 flow_count = 0;
+float flow_rate = 0.0;
+
+#int_timer1
+void timer1_isr() {
+   set_timer1(3036); // Reiniciar Timer1 para 100ms
+   flow_count = get_adc_value(0); // Leer valor de A0
+}
+
+void main() {
+   setup_adc_ports(sAN0); // Configurar A0 como entrada analógica
+   setup_adc(ADC_CLOCK_INTERNAL); // Configurar ADC
+   set_adc_channel(0); // Seleccionar canal 0 (A0)
+   
+   setup_timer_1(T1_INTERNAL | T1_DIV_BY_8); // Configurar Timer1
+   enable_interrupts(GLOBAL); // Habilitar interrupciones globales
+   enable_interrupts(INT_TIMER1); // Habilitar interrupción por Timer1
+   set_timer1(3036); // Configurar Timer1 para 100ms
+   
+   lcd_init();
+   
+   while(1) {
+      flow_rate = (float)flow_count * 2.25; // Convertir a flotante para mayor precisión
+      flow_rate = flow_rate * 60.0; // Convertir a minutos
+      flow_rate = flow_rate / 1000.0; // Convertir a litros
+      
+      lcd_gotoxy(1, 1);
+      printf(lcd_putc, "Caudal: %.2f L/min", flow_rate);
+      
+      delay_ms(1000); // Esperar 1 segundo
+   }
+}

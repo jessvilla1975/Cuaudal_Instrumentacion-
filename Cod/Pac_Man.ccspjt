@@ -1,0 +1,19 @@
+[PROJECT]
+Target=Pac_Man.hex
+Processor_Text=PIC18F4550
+CCSVersion=5.059
+Compiler=PCH
+[Target Data]
+FileList=Pac_Man.c
+[Pac_Man.c]
+Type=4
+[mru-list]
+1=Pac_Man.c
+[Opened Files]
+1=Pac_Man.c
+2=D:\Program Files (x86)\PICC\Drivers\lcd.c
+3=Mi_LCD.c
+4=
+[Units]
+Count=1
+1=Pac_Man (main)

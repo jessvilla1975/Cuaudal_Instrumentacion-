@@ -1,0 +1,38 @@
+
+#include <18F4550.H>
+#include <stdlib.h>
+#use delay(clock=4Mhz)
+#fuses XT, NOPROTECT, NOPUT, NOWDT, NOBROWNOUT, NOLVP, NOCPD
+#include "Mi_LCD.c"
+define FLOW_PIN PIN_A0 // Definimos el pin de entrada para el sensor de flujo
+#define PULSES_PER_LITER 444.44 // Número de pulsos por litro, ajustar según las especificaciones del sensor
+
+volatile unsigned int16 count = 0; // Contador de pulsos
+
+#INT_EXT // Declaramos la interrupción externa
+void isr_ext() {
+   count++; // Incrementamos el contador de pulsos en cada interrupción
+}
+
+void main() {
+   lcd_init();
+   enable_interrupts(INT_EXT); // Habilitamos las interrupciones externas
+   ext_int_edge(H_TO_L); // Configuramos la interrupción para que ocurra en flanco de bajada
+   enable_interrupts(GLOBAL); // Habilitamos todas las interrupciones globales
+   
+   float flowRate;
+
+   while(TRUE) {
+      count = 0; // Reiniciamos el contador de pulsos
+      delay_ms(1000); // Esperamos 1 segundo
+      disable_interrupts(GLOBAL); // Deshabilitamos las interrupciones globales mientras calculamos el flujo
+      
+      // Calculamos el flujo
+      flowRate = count * (2.25 / PULSES_PER_LITER); // Calculamos el flujo en litros por minuto
+      
+      lcd_putc("\fFlujo (L/min):");
+      printf(lcd_putc, "%.2f", flowRate); // Mostramos el flujo en el LCD
+      
+      enable_interrupts(GLOBAL); // Habilitamos nuevamente las interrupciones globales
+   }
+}

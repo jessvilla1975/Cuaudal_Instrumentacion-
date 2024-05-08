@@ -1,0 +1,44 @@
+
+#include <18F4550.H>
+#include <stdlib.h>
+#use delay(clock=4Mhz)
+#fuses XT, NOPROTECT, NOPUT, NOWDT, NOBROWNOUT, NOLVP, NOCPD
+#include "Mi_LCD.c"
+int16 flow_count = 0;
+float flow_rate = 0.0;
+
+#int_ext
+void ext_isr() {
+   flow_count++;
+   ext_int_edge(H_TO_L); // Configurar interrupción externa en flanco de bajada
+}
+
+void tanqueLleno() {
+   if (a0 == 1) {
+      lcd_gotoxy(1, 1);
+      printf(lcd_putc, "Tanque lleno");
+      
+   }
+}
+void main() {
+   setup_counters(RTCC_INTERNAL, RTCC_DIV_1);
+   enable_interrupts(INT_EXT); // Habilitar interrupción externa
+   enable_interrupts(GLOBAL); // Habilitar interrupciones globales
+   ext_int_edge(H_TO_L); // Configurar interrupción externa en flanco de bajada
+   
+   set_tris_b(0b00000001); // RB0 como entrada
+   set_tris_a(0b00000001);
+   
+   lcd_init();
+   
+   while(1) {
+      flow_rate = (float)flow_count * 2.25; // Convertir a flotante y multiplicar por 2.25 pulsos por segundo
+      flow_rate = flow_rate * 60.0; // Convertir a minutos
+      flow_rate = flow_rate / 1000.0; // Convertir a litros
+      
+      lcd_gotoxy(1, 1);
+      printf(lcd_putc, "Caudal: %.2f L/min", flow_rate); //imprimir en la lcd 
+      flow_count = 0; // iniciar contador en cero
+      delay_ms(1000); // Esperar 1 segundo
+   }
+}

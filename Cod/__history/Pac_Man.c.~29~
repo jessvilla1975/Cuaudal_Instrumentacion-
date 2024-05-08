@@ -1,0 +1,34 @@
+
+#include <18F4550.H>
+#include <stdlib.h>
+#use delay(clock=4Mhz)
+#fuses XT, NOPROTECT, NOPUT, NOWDT, NOBROWNOUT, NOLVP, NOCPD
+#include "Mi_LCD.c"
+int flowPin = PIN_B0; // Este es el pin de entrada del sensor de flujo
+double flowRate; // Esta es la variable que calcularemos
+volatile int count; // Este entero debe ser declarado como volátil para garantizar que se actualice correctamente durante el proceso de interrupción
+#int_EXT // Declara el manejador de interrupción externa
+void ext_isr() {
+   count++; // Incrementa el contador cada vez que se produce una interrupción externa (en este caso, en el pin B0)
+}
+void main() {
+   setup_adc(ADC_CLOCK_INTERNAL);
+   setup_adc_ports(ALL_ANALOG);
+   lcd_init();
+   float voltage;
+   float flow;
+
+   while(TRUE) {
+      set_adc_channel(0); // Cambia a canal 0 (o el canal adecuado para tu sensor)
+      delay_us(10);
+      voltage = read_adc() * 5.0 / 1023.0; // Lee el voltaje del sensor (0-5V)
+      // Suponiendo una relación lineal entre voltaje y flujo
+      // Necesitas calibrar esta relación según las especificaciones de tu sensor
+      flow = voltage * 100.0; // Suponiendo una relación lineal simple (solo para ejemplo)
+      
+      lcd_putc("\fFlujo:");
+      printf(lcd_putc, "%.2f", flow); // Muestra el flujo en el LCD
+      
+      delay_ms(1000); // Espera un segundo antes de tomar otra lectura
+   }
+}
